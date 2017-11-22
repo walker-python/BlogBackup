@@ -5,3 +5,4 @@
 # TODO 
 1. asciidoctor 工具可以转换默认asc格式为pdf,epub,mobi,html.
 2. 使用多线程下载网页, 并且支持中途暂停操作.
+3. 设计产品专有logo.
