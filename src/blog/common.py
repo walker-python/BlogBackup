@@ -8,7 +8,6 @@ import time
 import re
 # import blog.plugins.csdn
 from urlparse import *
-from blog.gui import gui
 
 __author__ = 'apple'
 
@@ -54,10 +53,3 @@ def testGetDomainMainPart():
 
     result= getDomainMainPart("http://12.disd.cnblogs.com/zhyg/p/4315787.html")
     print "4",result
-
-if __name__ == "__main__":
-    # url = "http://blog.csdn.net/infoworld"
-    # moduleName = getDomainMainPart(url)
-    # if moduleName == "csdn":
-    #     blog.plugins.csdn.run(url,"C:\\Users\\apple\\Desktop\\New folder")
-    gui.startGUI()
