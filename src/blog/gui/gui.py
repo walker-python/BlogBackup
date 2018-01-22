@@ -31,8 +31,8 @@ class Blackhole(object):
         pass
 
 
-sys.stderr = Blackhole()
-sys.stdout = Blackhole()
+# sys.stderr = Blackhole()
+# sys.stdout = Blackhole()
 
 # Dll
 user32 = windll.user32
