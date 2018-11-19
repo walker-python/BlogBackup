@@ -14,6 +14,9 @@ import xml
 import codecs
 import traceback
 import time
+from blog.common.utils import Utils
+
+gTestTime = 5
 
 # class MyHTMLParser(HTMLParser):
 
@@ -31,169 +34,6 @@ import time
 #             print "name %s,value %s" % (x[0],x[1])
 
 # 资源尝试次数
-gTestTime = 5
-
-def DownloadFile(url,output):
-    responseText = None
-    dirssPath = None
-    # 有些css里的image超链接竟然带空格?csdn不检查的?
-    url = url.replace(" ","")
-    try:
-        res = urlparse(url)
-        url = res.scheme+"://"+res.netloc+res.path
-        path = res.path
-        index = path.rfind('/')
-        dirss = "/"
-        if index != -1:
-            dirss =  output + "/" + res.netloc.encode("utf-8") + path[0:index].encode("utf-8")
-            dirssPath = output + "/" + res.netloc.encode("utf-8") + path.encode("utf-8")
-            dirss_ansi = dirss.decode('utf-8')
-            if not os.path.exists(dirss_ansi):
-                os.makedirs(dirss_ansi)
-        global gTestTime
-        count = 1
-        while True:
-            if count < 0:
-                break
-            count = count - 1
-            header={"User-Agent": "Mozilla-Firefox5.0"}
-
-            if (not url.startswith("http://")) and (not url.startswith("https://")):
-                break
-            try:
-                # print "url: %s:%d" % (url,count)
-                time.sleep(0.5)
-                request = urllib2.Request(url,None,header)
-                response = urllib2.urlopen(request)
-                dirssPath_ansi = dirssPath.decode("utf-8")
-                if not os.path.exists(dirssPath_ansi):
-                    resourceFile = open(dirssPath_ansi,"wb")
-                    responseText = response.read()
-                    if url.endswith(".js"):
-                        responseText = responseText.replace("http://","")
-                        responseText = responseText.replace("https://","")
-                    resourceFile.write(responseText)
-                    resourceFile.close()
-                break         
-            except Exception,e:
-                print "DownloadFile: %s:%d:%s" % (e,count,url)
-                # pass
-                # exstr = traceback.format_exc()
-                # print exstr
-
-    except Exception,e:
-            pass
-            # exstr = traceback.format_exc()
-            # print exstr
-    
-    return (responseText,url,output)
-
-def ReadCss(css):
-    # print "ReadCss"
-    mode = 'url\([\'\"]?([^)\'\"]+)[\'\"]?\)'
-    pattern = re.compile(mode)
-    try:
-        text = css[0]
-        if css[0] == None:
-            return
-        strMatch = pattern.findall(text)
-        size = len(strMatch)
-        # print "size: ",size
-        for i in range(0,size,1):
-            one = strMatch[i]
-            newurl = GetConcatUrl(css[1],one)
-            print "newurl %s,%s,%s" % (newurl ,css[1] , one)
-            DownloadFile(newurl,css[2])
-    except Exception,e:
-            pass
-            # exstr = traceback.format_exc()
-            # print exstr 
-
-def Download(url,output):
-    # try:
-    header={"User-Agent": "Mozilla-Firefox5.0"}
-    namespace = "{http://www.w3.org/1999/xhtml}"
-    request = urllib2.Request(url,None,header)
-    response = urllib2.urlopen(request)
-
-    data = response.read()
-    document = html5lib.parse(data)
-    imgElements = document.findall('.//{0}img'.format(namespace))
-
-    # print "imgElements %d" % len(imgElements)
-    for img in imgElements:
-        src = img.attrib["src"]
-        print "image %s" % src
-        try:
-            res = urlparse(src)
-            # 非csdn的图片不下载
-            if (-1 == res.netloc.find("csdn")) and (-1 == res.netloc.find("iteye")):
-                print "image not download: %s:%s" % (src,res.netloc)
-                continue
-        except Exception,e:
-            pass
-        DownloadFile(src,output)
-
-    linkElements = document.findall('.//{0}link'.format(namespace))
-    # print "linkElements %d" % len(linkElements)
-    for link in linkElements:
-        href = link.attrib["href"]
-        print "css %s" % href
-        text = DownloadFile(href,output)
-        if link.attrib.has_key("rel") and link.attrib["rel"].lower() == "stylesheet":
-            ReadCss(text)
-
-    scriptElements = document.findall('.//{0}script'.format(namespace))
-    # print "scriptElements %d" % len(scriptElements)
-    for script in scriptElements:
-        if script.attrib.has_key("src"):
-            src = script.attrib["src"]
-            print "script %s-%s" % (src,output)
-            if(src.startswith("//")):
-                src="https:"+src
-            DownloadFile(src,output)
-        
-    htmlNameIndex = url.rfind("/");
-    urlLen = len(url)
-    htmlName = GetHtmlName(url)
-    output = output.decode("utf-8") + "/"+htmlName+".htm"
-    data = data.replace("http://","")
-    data = data.replace("https://","")
-    data = data.replace("src=\"//","src=\"")
-    data = data.replace("www.w3.org/1999/xhtml","http://www.w3.org/1999/xhtml")
-
-    resourceFile = open(output,"wb")
-    resourceFile.write(data)
-    resourceFile.close()
-
-def FilterSlash(url):
-    newurl = url.replace("//","/../")
-    if newurl == url:
-        return newurl
-    else:
-        return FilterSlash(newurl)
-
-def GetConcatUrl(url,png):
-    # one: "../images/f_icon.png" -- url http://static.csdn.net/public/common/toolbar/css/index.css
-    count = 0
-    png = FilterSlash(png)
-    index = png.find("..")
-    startindex = None
-    while index != -1:
-        count = count + 1;
-        startindex = index + 2
-        index = png.find("..",startindex)
-
-    second = png[startindex:]
-    length = len(url)
-    index = url.rfind("/")
-    endindex = 0
-    while count >= 0 and index != -1:
-        endindex = index
-        index = url.rfind("/",0, endindex)
-        count = count - 1
-    first = url[0:endindex]
-    return first+second
 
 # 2018.8.17
 # 获取页数, 通过 ceil(307.0/20)
@@ -224,10 +64,10 @@ def getAllListUrl(url):
 def getArticleList(url):
     # 获取所有的文章url
     # <div id="article_toplist" class="list"></div>
-    # <div id="article_list" class="list"  
-    
+    # <div id="article_list" class="list"
+
     # <div class="list_item article_item"
-    
+
     # <div class="article_title">
     # <span class="ico ico_type_Original"></span>
     # <h1>
@@ -256,35 +96,93 @@ def getArticleList(url):
                 request = urllib2.Request(one,None,header)
                 response = urllib2.urlopen(request)
                 data = response.read()
-                pattern = re.compile('<p class="content">[^<]*<a href="([^"]+)" target="_blank">')
+                # patternText = '<p class="content">[^<]*<a href="([^"]+)"\s+target="_blank">'
+                patternText = '<h4 class="">[^<]*<a href="([^"]+)"\s+target="_blank">[\s\S]+?</span>([\s\S]+?)</a>'
+                pattern = re.compile(patternText)
                 m = re.findall(pattern,data)
                 size = len(m)
-                # print "size: ",size
+
                 for i in range(0,size,1):
-                    oneUrl = m[i]
-                    artices.append(oneUrl)
+                    urls = m[i]
+                    oneUrl = urls[0]
+                    if(oneUrl.startswith(url)):
+                        oneTitle = urls[1]
+                        oneTitle = oneTitle.strip()
+                        artices.append((oneUrl,oneTitle))
+
+                # print "size: ",size
+
                 break
             except Exception, e:
                 print "getArticleList %s:%s:%d" % (e,one,tryCount)
 
     return artices
 
-def GetHtmlName(url):
-    htmlNameIndex = url.rfind("/");
-    urlLen = len(url)
-    htmlName = ""
-    if htmlNameIndex+1 == urlLen:
-        htmlNameIndex = url.rfind("/",0,htmlNameIndex)
-        htmlName = url[htmlNameIndex+1:urlLen-1]
-    else:
-        htmlName = url[htmlNameIndex+1:]
-    return htmlName
+
+# <div style="display:none;">
+# 	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+# </div>
+def Download(url,output):
+    # try:
+    header={"User-Agent": "Mozilla-Firefox5.0"}
+    namespace = "{http://www.w3.org/1999/xhtml}"
+    request = urllib2.Request(url,None,header)
+    response = urllib2.urlopen(request)
+
+    data = response.read()
+    document = html5lib.parse(data)
+    imgElements = document.findall('.//{0}img'.format(namespace))
+
+    # print "imgElements %d" % len(imgElements)
+    for img in imgElements:
+        src = img.attrib["src"]
+        # print "image %s" % src
+        try:
+            res = urlparse(src)
+            # 非csdn的图片不下载
+            if (-1 == res.netloc.find("csdn")) and (-1 == res.netloc.find("iteye")):
+                # print "image not download: %s:%s" % (src,res.netloc)
+                continue
+        except Exception,e:
+            pass
+        Utils.DownloadFile(src,output)
+
+    linkElements = document.findall('.//{0}link'.format(namespace))
+    # print "linkElements %d" % len(linkElements)
+    for link in linkElements:
+        href = link.attrib["href"]
+        # print "css %s" % href
+        text = Utils.DownloadFile(href,output)
+        if link.attrib.has_key("rel") and link.attrib["rel"].lower() == "stylesheet":
+            Utils.ReadCss(text)
+
+    scriptElements = document.findall('.//{0}script'.format(namespace))
+    # print "scriptElements %d" % len(scriptElements)
+    for script in scriptElements:
+        if script.attrib.has_key("src"):
+            src = script.attrib["src"]
+            # print "script %s-%s" % (src,output)
+            if(src.startswith("//")):
+                src="https:"+src
+            Utils.DownloadFile(src,output)
+
+    htmlName = Utils.GetHtmlName(url)
+    output = output.decode("utf-8") + "/"+htmlName+".htm"
+    data = data.replace("http://","")
+    data = data.replace("https://","")
+    data = data.replace("src=\"//","src=\"")
+    data = data.replace("www.w3.org/1999/xhtml","http://www.w3.org/1999/xhtml")
+    data = re.sub('<div style="display:none;">[\\s\\S]*?</div>','',data)
+
+    resourceFile = open(output,"wb")
+    resourceFile.write(data)
+    resourceFile.close()
 
 def run(url,output):
 
     print "备份开始"
     lists = getArticleList(url)
-    username = GetHtmlName(url)
+    username = Utils.GetHtmlName(url)
     if not os.path.exists(output.decode("utf-8")):
         os.mkdir(output.decode("utf-8"))
     output_username = output+"/"+username
@@ -308,7 +206,9 @@ def run(url,output):
     print >> f,'<frameset cols=\"20%,*\">'
     navigationHtmlName = username+'-navigation.htm'
     print >> f,'<frame src=\"'+navigationHtmlName+'\" />'
-    firstHtmlName = GetHtmlName(lists[0])
+    firstHtmlName = ""
+    if(len(lists) > 0):
+        firstHtmlName = Utils.GetHtmlName(lists[0][0])
     print >> f,'<frame src=\"'+username+'/'+firstHtmlName+'.htm\" name=\"showframe\">'
     print >> f,'</frameset>'
     print >> f,'</html>'
@@ -328,7 +228,7 @@ def run(url,output):
     count = 0
     for x in lists:
         count = count + 1
-        articleIdHtml = username+"/"+GetHtmlName(x)+".htm"
+        articleIdHtml = username+"/"+Utils.GetHtmlName(x[0])+".htm"
         print >> f,'<a href=\"'+articleIdHtml + '\" target=\"showframe\">'+str(count)+'.'+x[1].decode("utf-8")+'</a><br /><br />'
     print >> f,'</body>'
     print >> f,'</html>'
@@ -339,24 +239,16 @@ def run(url,output):
     strPage = "{0}:{1}.".decode("utf-8").encode("utf-8")
     global gTestTime
     for x in lists:
-        count = gTestTime
         currentNum = currentNum+1
-        while True:
-            if count < 0:
-                break
-            count = count - 1
-            try:
-                time.sleep(1) #访问太快,csdn会报503错误.
-                strPageTemp = strPage.format(totalNum,currentNum)
-                strPageTemp = strPageTemp+x[1]
-                print strPageTemp #这里有时候会不能输出,报output is not utf-8错误,单独执行时
+        try:
+            # time.sleep(1) #访问太快,csdn会报503错误.
+            strPageTemp = strPage.format(totalNum,currentNum)
+            strPageTemp = strPageTemp+x[1]
+            print strPageTemp #这里有时候会不能输出,报output is not utf-8错误,单独执行时
 
-                print x
-                print "\n"
-                Download(x,output_username)
-                break
-            except Exception, e:
-                # exstr = traceback.format_exc()
-                # print exstr
-                pass
-        break
+            print x
+            print "\n"
+            Download(x[0],output_username)
+        except Exception, e:
+            # exstr = traceback.format_exc()
+            print e

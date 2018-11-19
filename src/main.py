@@ -55,7 +55,7 @@ def testGetDomainMainPart():
     print "4",result
 
 if __name__ == "__main__":
-    url = "http://blog.csdn.net/infoworld"
+    url = "https://blog.csdn.net/infoworld"
     moduleName = getDomainMainPart(url)
     if moduleName == "csdn":
         blog.plugins.csdn.run(url,"C:\\Users\\apple\\Desktop\\New folder")
