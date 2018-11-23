@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/blog/gui/gui.py" line="287" />
-    <bookmark url="file://$PROJECT_DIR$/src/blog/gui/gui.py" line="143" />
-    <bookmark url="file://$PROJECT_DIR$/src/blog/gui/gui.py" line="544" />
+    <bookmark url="file://$PROJECT_DIR$/src/blog/gui/gui.py" line="288" />
+    <bookmark url="file://$PROJECT_DIR$/src/blog/gui/gui.py" line="144" />
+    <bookmark url="file://$PROJECT_DIR$/src/blog/gui/gui.py" line="545" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2cfb65dd-bd89-441c-8b4d-aaac1356c760" name="Default" comment="" />
@@ -28,17 +28,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="gui.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/blog/gui/gui.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="260" column="0" selection-start="8536" selection-end="8536" vertical-scroll-proportion="0.0" vertical-offset="5102" max-vertical-offset="11256">
-              <folding>
-                <element signature="e#19#40#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Tkconstants.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/Python27/Lib/lib-tk/Tkconstants.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -51,28 +40,17 @@
       <file leaf-file-name="ScrolledText.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/Python27/Lib/lib-tk/ScrolledText.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="874" selection-end="874" vertical-scroll-proportion="-4.037037" vertical-offset="199" max-vertical-offset="840">
+            <state line="23" column="0" selection-start="874" selection-end="874" vertical-scroll-proportion="0.0" vertical-offset="322" max-vertical-offset="854">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tkFileDialog.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/lib-tk/tkFileDialog.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="175" column="4" selection-start="4638" selection-end="4638" vertical-scroll-proportion="0.0" vertical-offset="2353" max-vertical-offset="3094">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utils.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="utils.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blog/common/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="33" selection-start="4042" selection-end="4042" vertical-scroll-proportion="0.6828087" vertical-offset="1412" max-vertical-offset="2114">
-              <folding>
-                <element signature="e#40#69#0" expanded="true" />
-              </folding>
+            <state line="78" column="16" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="2128">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -80,16 +58,16 @@
       <file leaf-file-name="request.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/Python27/Lib/site-packages/urllib3-1.24.1-py2.7.egg/urllib3/request.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="8" selection-start="1658" selection-end="1658" vertical-scroll-proportion="0.0" vertical-offset="686" max-vertical-offset="2142">
+            <state line="49" column="8" selection-start="1658" selection-end="1658" vertical-scroll-proportion="0.0" vertical-offset="686" max-vertical-offset="2184">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="csdn.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="csdn.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/blog/plugins/csdn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="279" column="0" selection-start="9790" selection-end="9790" vertical-scroll-proportion="-47.25926" vertical-offset="2630" max-vertical-offset="4046">
+            <state line="114" column="27" selection-start="3420" selection-end="3420" vertical-scroll-proportion="1.1147541" vertical-offset="1120" max-vertical-offset="4424">
               <folding>
                 <element signature="e#19#33#0" expanded="true" />
               </folding>
@@ -97,20 +75,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utility.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/blog/gui/utility.py">
+      <file leaf-file-name="socket.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/socket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="4" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
+            <state line="534" column="0" selection-start="19050" selection-end="19050" vertical-scroll-proportion="0.0" vertical-offset="7476" max-vertical-offset="8106">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="os.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/os.py">
+      <file leaf-file-name="urllib2.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/urllib2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="422" column="0" selection-start="13219" selection-end="13219" vertical-scroll-proportion="0.0" vertical-offset="5811" max-vertical-offset="10710">
+            <state line="1400" column="18" selection-start="49347" selection-end="49357" vertical-scroll-proportion="0.0" vertical-offset="19600" max-vertical-offset="20174">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utility.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/blog/gui/utility.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="4" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="238">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="59" column="32" selection-start="2214" selection-end="2214" vertical-scroll-proportion="0.0" vertical-offset="826" max-vertical-offset="1260">
+              <folding>
+                <marker date="1542956729377" expanded="true" signature="2147:2342" placeholder="..." />
+                <marker date="1542956729377" expanded="true" signature="2366:2531" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -118,7 +117,7 @@
       <file leaf-file-name="pydevd.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1533" column="0" selection-start="60527" selection-end="60527" vertical-scroll-proportion="0.0" vertical-offset="20370" max-vertical-offset="20650">
+            <state line="1533" column="0" selection-start="60527" selection-end="60527" vertical-scroll-proportion="0.0" vertical-offset="21462" max-vertical-offset="21560">
               <folding />
             </state>
           </provider>
@@ -139,17 +138,17 @@
         <option value="$PROJECT_DIR$/src/plugins/csdn/csdn.py" />
         <option value="$PROJECT_DIR$/src/plugins/csdn.py" />
         <option value="$PROJECT_DIR$/src/gui/gui.py" />
-        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/blog/gui/utility.py" />
-        <option value="$PROJECT_DIR$/src/blog/common/utils.py" />
+        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/blog/gui/gui.py" />
+        <option value="$PROJECT_DIR$/src/blog/common/utils.py" />
         <option value="$PROJECT_DIR$/src/blog/plugins/csdn.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="-66" />
+    <option name="y" value="19" />
     <option name="width" value="1296" />
     <option name="height" value="776" />
   </component>
@@ -542,26 +541,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1296" height="776" extended-state="6" />
-    <editor active="true" />
+    <frame x="-66" y="19" width="1296" height="776" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744783" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258427" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24781573" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21683876" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19261637" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38202247" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21508828" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21508828" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -585,54 +584,29 @@
           <line>54</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
-        <line-breakpoint type="python-line">
-          <url>file://$PROJECT_DIR$/src/blog/plugins/csdn.py</url>
-          <line>51</line>
-          <option name="timeStamp" value="129" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/src/blog/common/utils.py</url>
           <line>72</line>
           <option name="timeStamp" value="203" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/src/blog/common/utils.py</url>
-          <line>99</line>
-          <option name="timeStamp" value="205" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/src/blog/gui/gui.py</url>
-          <line>302</line>
-          <option name="timeStamp" value="206" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/src/blog/gui/gui.py</url>
-          <line>260</line>
-          <option name="timeStamp" value="208" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/src/blog/plugins/csdn.py</url>
-          <line>283</line>
+          <line>310</line>
           <option name="timeStamp" value="217" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/src/blog/plugins/csdn.py</url>
-          <line>281</line>
+          <line>308</line>
           <option name="timeStamp" value="218" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="220" />
+      <option name="time" value="235" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/Python27/Lib/site-packages/html5lib/html5parser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="696" column="63" selection-start="28088" selection-end="28096" vertical-scroll-proportion="0.0" vertical-offset="9744" max-vertical-offset="38346" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/blog/gui/gui.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9898" />
@@ -793,11 +767,6 @@
         <state line="636" column="0" selection-start="21758" selection-end="21758" vertical-scroll-proportion="0.0" vertical-offset="8718" max-vertical-offset="19236" />
       </provider>
     </entry>
-    <entry file="file://C:/Python27/Lib/urllib2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="352" column="33" selection-start="11570" selection-end="11570" vertical-scroll-proportion="-0.28282827" vertical-offset="4928" max-vertical-offset="20006" />
-      </provider>
-    </entry>
     <entry file="file://C:/Python27/Lib/site-packages/tkinter/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="105" selection-end="105" vertical-scroll-proportion="0.15135135" vertical-offset="0" max-vertical-offset="370" />
@@ -808,13 +777,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1148" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="6" selection-start="2237" selection-end="2237" vertical-scroll-proportion="0.0" vertical-offset="559" max-vertical-offset="938">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/blog/gui/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="377" />
@@ -822,30 +784,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/blog/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="377">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="377" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.PyCharm30/system/python_stubs/-762174762/__builtin__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2485" column="8" selection-start="84706" selection-end="84706" vertical-scroll-proportion="0.0" vertical-offset="34561" max-vertical-offset="70854">
-          <folding />
-        </state>
+        <state line="2485" column="8" selection-start="84706" selection-end="84706" vertical-scroll-proportion="0.0" vertical-offset="34561" max-vertical-offset="70854" />
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/os.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="422" column="0" selection-start="13219" selection-end="13219" vertical-scroll-proportion="0.0" vertical-offset="5811" max-vertical-offset="10710">
-          <folding />
-        </state>
+        <state line="422" column="0" selection-start="13219" selection-end="13219" vertical-scroll-proportion="0.0" vertical-offset="5811" max-vertical-offset="10710" />
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/lib-tk/tkFileDialog.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="4" selection-start="4638" selection-end="4638" vertical-scroll-proportion="0.0" vertical-offset="2353" max-vertical-offset="3094">
-          <folding />
-        </state>
+        <state line="175" column="4" selection-start="4638" selection-end="4638" vertical-scroll-proportion="0.0" vertical-offset="2353" max-vertical-offset="3094" />
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
@@ -857,16 +811,14 @@
     </entry>
     <entry file="file://C:/Python27/Lib/lib-tk/ScrolledText.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="874" selection-end="874" vertical-scroll-proportion="-4.037037" vertical-offset="199" max-vertical-offset="840">
+        <state line="23" column="0" selection-start="874" selection-end="874" vertical-scroll-proportion="0.0" vertical-offset="322" max-vertical-offset="854">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/lib-tk/Tkinter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="335" column="6" selection-start="11445" selection-end="11445" vertical-scroll-proportion="0.0" vertical-offset="6132" max-vertical-offset="52346">
-          <folding />
-        </state>
+        <state line="335" column="6" selection-start="11445" selection-end="11445" vertical-scroll-proportion="0.0" vertical-offset="6132" max-vertical-offset="52346" />
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/site-packages/urllib3-1.24.1-py2.7.egg/urllib3/request.py">
@@ -890,18 +842,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/blog/plugins/csdn.py">
+    <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="279" column="0" selection-start="9790" selection-end="9790" vertical-scroll-proportion="-47.25926" vertical-offset="2630" max-vertical-offset="4046">
+        <state line="59" column="32" selection-start="2214" selection-end="2214" vertical-scroll-proportion="0.0" vertical-offset="602" max-vertical-offset="1162">
           <folding>
-            <element signature="e#19#33#0" expanded="true" />
+            <marker date="1542956729377" expanded="true" signature="2147:2342" placeholder="..." />
+            <marker date="1542956729377" expanded="true" signature="2366:2531" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/blog/gui/gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="0" selection-start="8536" selection-end="8536" vertical-scroll-proportion="0.0" vertical-offset="5102" max-vertical-offset="11256">
+        <state line="262" column="0" selection-start="8625" selection-end="8625" vertical-scroll-proportion="0.0" vertical-offset="3556" max-vertical-offset="11270">
           <folding>
             <element signature="e#19#40#0" expanded="true" />
           </folding>
@@ -910,9 +863,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/blog/common/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="33" selection-start="4042" selection-end="4042" vertical-scroll-proportion="0.6828087" vertical-offset="1412" max-vertical-offset="2114">
+        <state line="78" column="16" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="2128">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/socket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="534" column="0" selection-start="19050" selection-end="19050" vertical-scroll-proportion="0.0" vertical-offset="7288" max-vertical-offset="8064">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/urllib2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1400" column="18" selection-start="49347" selection-end="49357" vertical-scroll-proportion="0.0" vertical-offset="19600" max-vertical-offset="20174">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/blog/plugins/csdn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="114" column="27" selection-start="3420" selection-end="3420" vertical-scroll-proportion="1.1147541" vertical-offset="1120" max-vertical-offset="4424">
           <folding>
-            <element signature="e#40#69#0" expanded="true" />
+            <element signature="e#19#33#0" expanded="true" />
           </folding>
         </state>
       </provider>

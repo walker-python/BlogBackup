@@ -85,11 +85,12 @@ def getArticleList(url):
     # <span class="link_postdate"></span>
 
     urlList = getAllListUrl(url)
+    time.sleep(1) #访问太快,csdn会报503错误.
     if(urlList is None):
         return None
     blog.gui.utility.get_queue().put((0, "文章页数 %d" % len(urlList)))
-    header={"User-Agent": "Mozilla-Firefox5.0"}
-
+    user_agent ='"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36"'
+    header = { 'User-Agent' : user_agent }
     allLists = []
 
     strPage = "分析 第 {0} 页 ".decode("utf-8").encode("utf-8")
@@ -99,15 +100,21 @@ def getArticleList(url):
     for one in urlList:
         tryCount = gTestTime # try count
         while tryCount > 0:
-            try:
+
                 if(Utils.is_backuping_stop()):
                     return None
 
+
+                blog.gui.utility.get_queue().put((0, "getArticleList %s:tryCount %d" % (one,tryCount)))
                 tryCount = tryCount - 1
-                time.sleep(0.5) #访问太快会不响应
-                request = urllib2.Request(one,None,header)
-                response = urllib2.urlopen(request)
-                data = response.read()
+                try:
+                    time.sleep(0.5) #访问太快会不响应
+                    request = urllib2.Request(one,None,header)
+                    response = urllib2.urlopen(request,timeout=5)
+                    data = response.read()
+                except Exception, e:
+                    continue
+
                 # patternText = '<p class="content">[^<]*<a href="([^"]+)"\s+target="_blank">'
                 patternText = '<h4 class="">[^<]*<a href="([^"]+)"\s+target="_blank">[\s\S]+?</span>([\s\S]+?)</a>'
                 pattern = re.compile(patternText)
@@ -123,11 +130,9 @@ def getArticleList(url):
                         artices.append((oneUrl,oneTitle))
 
                 # print "size: ",size
-
                 break
-            except Exception, e:
-                blog.gui.utility.get_queue().put((0, "getArticleList %s:%s:%d" % (e,one,tryCount)))
 
+    blog.gui.utility.get_queue().put((0, "getArtistList Finish"))
     return artices
 
 
@@ -197,8 +202,30 @@ def Download(url,output):
     resourceFile.write(data)
     resourceFile.close()
 
-def run(url,output):
+def queryBlogUser(url,pos):
+    if(pos != -1):
+        pos+=1
+        last = url.find("/",pos)
+        if(last == -1):
+            return url[pos:]
+        else:
+            return url[pos:last]
+    else:
+        return ""
 
+def queryCsdnUrl(url):
+    pos = url.find("//")
+    last = -1
+    if(pos != -1):
+        pos = url.find("/",pos+2)
+    else:
+        pos = url.find("/")
+
+    return queryBlogUser(url,pos)
+
+def run(url,output):
+    url = queryCsdnUrl(url)
+    url = "https://blog.csdn.net/"+url
     queue = blog.gui.utility.get_queue()
     queue.put((0,"备份开始"))
     lists = getArticleList(url)
@@ -268,7 +295,7 @@ def run(url,output):
             try:
                 if(Utils.is_backuping_stop()):
                     break
-                # time.sleep(1) #访问太快,csdn会报503错误.
+                time.sleep(1) #访问太快,csdn会报503错误.
                 currentNum = currentNum+1
                 strPageTemp = strPage.format(totalNum,currentNum)
                 strPageTemp = strPageTemp+x[1]

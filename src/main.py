@@ -54,8 +54,31 @@ def testGetDomainMainPart():
     result= getDomainMainPart("http://12.disd.cnblogs.com/zhyg/p/4315787.html")
     print "4",result
 
+def queryBlogUser(url,pos):
+    if(pos != -1):
+        pos+=1
+        last = url.find("/",pos)
+        if(last == -1):
+            return url[pos:]
+        else:
+            return url[pos:last]
+    else:
+        return ""
+
+def queryCsdnUrl(url):
+    pos = url.find("//")
+    last = -1
+    if(pos != -1):
+        pos = url.find("/",pos+2)
+    else:
+        pos = url.find("/")
+
+    return queryBlogUser(url,pos)
+
 if __name__ == "__main__":
-    url = "https://blog.csdn.net/infoworld"
-    moduleName = getDomainMainPart(url)
-    if moduleName == "csdn":
-        blog.plugins.csdn.run(url,"C:\\Users\\apple\\Desktop\\New folder")
+    url = "blog.csdn.net/infoworld/adfaadfa"
+    userId = queryCsdnUrl(url)
+    print userId
+    # moduleName = getDomainMainPart(url)
+    # if moduleName == "csdn":
+    #     blog.plugins.csdn.run(url,"C:\\Users\\apple\\Desktop\\New folder")

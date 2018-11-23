@@ -75,7 +75,8 @@ class Utils:
                 if count < 0:
                     break
                 count = count - 1
-                header={"User-Agent": "Mozilla-Firefox5.0"}
+                user_agent ='"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36"'
+                header = { 'User-Agent' : user_agent }
 
                 if (not url.startswith("http://")) and (not url.startswith("https://")):
                     break
@@ -97,7 +98,7 @@ class Utils:
                 except Exception,e:
                     if(Utils.is_backuping_stop()):
                         return None
-                    # blog.gui.utility.get_queue().put((0,"DownloadFile: %s:%d:%s" % (e,count,url)))
+                    blog.gui.utility.get_queue().put((0,"DownloadFile: %s:%d:%s" % (e,count,url)))
                     # exstr = traceback.format_exc()
                     # print exstr
 

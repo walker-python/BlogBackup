@@ -22,6 +22,7 @@ from PIL import ImageFile
 from PIL import ImageTk
 import ctypes
 import locale
+import blog.plugins.csdn
 
 
 class Blackhole(object):
@@ -258,8 +259,8 @@ class RemovePanel:
         currentThread = threading.currentThread()
         currentThread.status = self.status
         # https://stackoverflow.com/questions/15959534/visibility-of-global-variables-in-imported-modules
-        module = importlib.import_module('blog.plugins.csdn')
-        module.run(self.inpath,self.output)
+        # module = importlib.import_module('blog.plugins.csdn')
+        blog.plugins.csdn.run(self.inpath,self.output)
 
     def onUpdate(self):
         try:
