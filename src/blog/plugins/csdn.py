@@ -202,78 +202,83 @@ def run(url,output):
     queue = blog.gui.utility.get_queue()
     queue.put((0,"备份开始"))
     lists = getArticleList(url)
-    if(lists is None):
-        blog.gui.utility.get_queue().put((-1,"备份中止"))
-        return
-    username = Utils.GetHtmlName(url)
-    if not os.path.exists(output.decode("utf-8")):
-        os.mkdir(output.decode("utf-8"))
-    output_username = output+"/"+username
-    output_username = output_username.replace("\\","/")
-    if not os.path.exists(output_username.decode("utf-8")):
-        os.mkdir(output_username.decode("utf-8"))
+    loopcount = 1
+    result = (-1,"备份中止")
+    while(loopcount > 0):
+        loopcount-=1
+        if(lists is None):
+            break
+        username = Utils.GetHtmlName(url)
+        if not os.path.exists(output.decode("utf-8")):
+            os.mkdir(output.decode("utf-8"))
+        output_username = output+"/"+username
+        output_username = output_username.replace("\\","/")
+        if not os.path.exists(output_username.decode("utf-8")):
+            os.mkdir(output_username.decode("utf-8"))
 
-    totalNum = len(lists)
-    blog.gui.utility.get_queue().put((0, "总文章数: %d" % totalNum))
+        totalNum = len(lists)
+        blog.gui.utility.get_queue().put((0, "总文章数: %d" % totalNum))
 
-    # 生成首页文件
-    doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n'
-    charset = '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />'
-    indexHtml = output_username + ".htm"
-    f = open(indexHtml.decode("utf-8"),"w")
-    print >> f,doctype
-    print >> f,'<html>'
-    print >> f,'<head>'
-    print >> f,charset
-    print >> f,'</head>'
-    print >> f,'<frameset cols=\"20%,*\">'
-    navigationHtmlName = username+'-navigation.htm'
-    print >> f,'<frame src=\"'+navigationHtmlName+'\" />'
-    firstHtmlName = ""
-    if(len(lists) > 0):
-        firstHtmlName = Utils.GetHtmlName(lists[0][0])
-    print >> f,'<frame src=\"'+username+'/'+firstHtmlName+'.htm\" name=\"showframe\">'
-    print >> f,'</frameset>'
-    print >> f,'</html>'
-    f.close()
+        # 生成首页文件
+        doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n'
+        charset = '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />'
+        indexHtml = output_username + ".htm"
+        f = open(indexHtml.decode("utf-8"),"w")
+        print >> f,doctype
+        print >> f,'<html>'
+        print >> f,'<head>'
+        print >> f,charset
+        print >> f,'</head>'
+        print >> f,'<frameset cols=\"20%,*\">'
+        navigationHtmlName = username+'-navigation.htm'
+        print >> f,'<frame src=\"'+navigationHtmlName+'\" />'
+        firstHtmlName = ""
+        if(len(lists) > 0):
+            firstHtmlName = Utils.GetHtmlName(lists[0][0])
+        print >> f,'<frame src=\"'+username+'/'+firstHtmlName+'.htm\" name=\"showframe\">'
+        print >> f,'</frameset>'
+        print >> f,'</html>'
+        f.close()
 
-    # 生成导航文件
-    navigationHtml = output+"/"+navigationHtmlName
-    # f = open(navigationHtml.decode("utf-8"),"w")
-    f = codecs.open(navigationHtml.decode("utf-8"),"w","utf-8-sig")
-    print >> f,doctype
-    print >> f,'<html>'
-    print >> f,'<head>'
-    print >> f,charset
-    print >> f,'<style> body{font: 12px Verdana, Arial, Helvetica, sans-serif;}a{color: #808080;}</style>'
-    print >> f,'</head>'
-    print >> f,'<body>'
-    count = 0
-    for x in lists:
-        count = count + 1
-        articleIdHtml = username+"/"+Utils.GetHtmlName(x[0])+".htm"
-        print >> f,'<a href=\"'+articleIdHtml + '\" target=\"showframe\">'+str(count)+'.'+x[1].decode("utf-8")+'</a><br /><br />'
-    print >> f,'</body>'
-    print >> f,'</html>'
-    f.close()
+        # 生成导航文件
+        navigationHtml = output+"/"+navigationHtmlName
+        # f = open(navigationHtml.decode("utf-8"),"w")
+        f = codecs.open(navigationHtml.decode("utf-8"),"w","utf-8-sig")
+        print >> f,doctype
+        print >> f,'<html>'
+        print >> f,'<head>'
+        print >> f,charset
+        print >> f,'<style> body{font: 12px Verdana, Arial, Helvetica, sans-serif;}a{color: #808080;}</style>'
+        print >> f,'</head>'
+        print >> f,'<body>'
+        count = 0
+        for x in lists:
+            count = count + 1
+            articleIdHtml = username+"/"+Utils.GetHtmlName(x[0])+".htm"
+            print >> f,'<a href=\"'+articleIdHtml + '\" target=\"showframe\">'+str(count)+'.'+x[1].decode("utf-8")+'</a><br /><br />'
+        print >> f,'</body>'
+        print >> f,'</html>'
+        f.close()
 
-    blog.gui.utility.get_queue().put((0,  "开始下载文章"))
-    currentNum = 0
-    strPage = "{0}:{1}.".decode("utf-8").encode("utf-8")
-    global gTestTime
-    for x in lists:
-        currentNum = currentNum+1
-        try:
-            if(Utils.is_backuping_stop()):
-                blog.gui.utility.get_queue().put((-1,"备份中止"))
-                break
-            # time.sleep(1) #访问太快,csdn会报503错误.
-            strPageTemp = strPage.format(totalNum,currentNum)
-            strPageTemp = strPageTemp+x[1]
-            blog.gui.utility.get_queue().put((0,""+strPageTemp)) #这里有时候会不能输出,报output is not utf-8错误,单独执行时
-            Download(x[0],output_username)
-        except Exception, e:
-            # exstr = traceback.format_exc()
-            print e
+        blog.gui.utility.get_queue().put((0,  "开始下载文章"))
+        currentNum = 0
+        strPage = "{0}:{1}.".decode("utf-8").encode("utf-8")
+        global gTestTime
+        for x in lists:
+            try:
+                if(Utils.is_backuping_stop()):
+                    break
+                # time.sleep(1) #访问太快,csdn会报503错误.
+                currentNum = currentNum+1
+                strPageTemp = strPage.format(totalNum,currentNum)
+                strPageTemp = strPageTemp+x[1]
+                blog.gui.utility.get_queue().put((0,""+strPageTemp)) #这里有时候会不能输出,报output is not utf-8错误,单独执行时
+                Download(x[0],output_username)
+            except Exception, e:
+                # exstr = traceback.format_exc()
+                print e
 
-    blog.gui.utility.get_queue().put((1,"备份完成"))
+        if(not Utils.is_backuping_stop()):
+            result = (1,"备份完成")
+
+    blog.gui.utility.get_queue().put(result)

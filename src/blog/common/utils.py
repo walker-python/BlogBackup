@@ -95,7 +95,9 @@ class Utils:
                         resourceFile.close()
                     break
                 except Exception,e:
-                    blog.gui.utility.get_queue().put((0,"DownloadFile: %s:%d:%s" % (e,count,url)))
+                    if(Utils.is_backuping_stop()):
+                        return None
+                    # blog.gui.utility.get_queue().put((0,"DownloadFile: %s:%d:%s" % (e,count,url)))
                     # exstr = traceback.format_exc()
                     # print exstr
 
@@ -120,7 +122,7 @@ class Utils:
             # print "size: ",size
             for i in range(0,size,1):
                 if(Utils.is_backuping_stop()):
-                    return
+                    return None
 
                 one = strMatch[i]
                 newurl = Utils.GetConcatUrl(css[1],one)

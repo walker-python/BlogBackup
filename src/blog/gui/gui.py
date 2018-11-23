@@ -142,6 +142,7 @@ class Diacritical:
         # We will need Ctrl-/ for the "stroke", but it cannot be unbound, so
         # let's prevent it from being passed to the standard handler
         self.bind("<Control-Key-/>", lambda event: "break")
+        self.bind("<Button-3><ButtonRelease-3>", self.show_menu)
         # Diacritical bindings
         for a, k in self.accents:
             # Little-known feature of Tk, it allows to bind an event to
@@ -149,14 +150,27 @@ class Diacritical:
             self.bind("<Control-Key-%s><Key>" % k,
                       lambda event, a=a: self.insert_accented(event.char, a))
 
+def _rc_menu_install(w):
+    w.menu = Tkinter.Menu(w, tearoff=0)
+    w.menu.add_command(label="Cut")
+    w.menu.add_command(label="Copy")
+    w.menu.add_command(label="Paste")
+
+    w.menu.entryconfigure("Cut", command=lambda: w.focus_force() or w.event_generate("<<Cut>>"))
+    w.menu.entryconfigure("Copy", command=lambda: w.focus_force() or w.event_generate("<<Copy>>"))
+    w.menu.entryconfigure("Paste", command=lambda: w.focus_force() or w.event_generate("<<Paste>>"))
 
 class DiacriticalEntry(Entry, Diacritical):
     """Tkinter Entry widget with some extra key bindings for
     entering typical Unicode characters - with umlauts, accents, etc."""
 
+    def show_menu(self, e):
+        self.tk.call("tk_popup", self.menu, e.x_root, e.y_root)
+
     def __init__(self, master=None, **kwargs):
         Entry.__init__(self, master=None, **kwargs)
         Diacritical.__init__(self)
+        _rc_menu_install(self)
 
     def select_all(self, event=None):
         self.selection_range(0, END)
@@ -170,12 +184,16 @@ class DiacriticalText(ScrolledText, Diacritical):
     def __init__(self, master=None, **kwargs):
         ScrolledText.__init__(self, master=None, **kwargs)
         Diacritical.__init__(self)
+        _rc_menu_install(self)
 
     def select_all(self, event=None):
         self.tag_add(SEL, "1.0", "end-1c")
         self.mark_set(INSERT, "1.0")
         self.see(INSERT)
         return "break"
+
+    def show_menu(self, e):
+        self.tk.call("tk_popup", self.menu, e.x_root, e.y_root)
 
 
 ################## RemovePanel
@@ -248,13 +266,16 @@ class RemovePanel:
             valueTuple = blog.gui.utility.get_queue().get(False)
             if(valueTuple[0] == 0):
                 self.text.insert(END, valueTuple[1] + "\n")
+                self.text.see(END)
             elif(valueTuple[0] == -1):
                 self.text.insert(END, "备份失败" + "\n")
                 self.removebutton["text"] = self.button1_text
+                self.removebutton["state"]=NORMAL
                 return
             else:
                 self.text.insert(END, "备份完成" + "\n")
                 self.removebutton["text"] = self.button1_text
+                self.removebutton["state"]=NORMAL
                 return
         except Queue.Empty:
             pass
@@ -275,6 +296,7 @@ class RemovePanel:
         if(self.status[0]):
             self.status[0] = False
             self.removebutton["text"] = self.button1_text
+            self.removebutton["state"]=DISABLED
         else:
             self.status[0] = True
             self.removebutton["text"] = "停止"
@@ -466,6 +488,9 @@ class SimpleFileChoose:
         self.entry_font = tkFont.Font(family="Arial", size=10)
         self.entry = Entry(self.canvas, font=self.entry_font)
         self.entry.bind("<Control-KeyPress-a>", self.call_select_all)
+        self.entry.bind("<Button-3><ButtonRelease-3>", self.call_show_menu)
+        _rc_menu_install(self.entry)
+
         self.entry.place(x=x + self.second_font_width + 10, y=self.height / 4 + y - 15, width=380,
                          height=28)
 
@@ -508,6 +533,9 @@ class SimpleFileChoose:
         self.parent.removepanel.text.insert(END, "选择输出目录: " + self.outputdir + "\n")
         self.parent.removepanel.text.see(INSERT)
 
+    def call_show_menu(self, e):
+        self.entry.tk.call("tk_popup", self.entry.menu, e.x_root, e.y_root)
+        return "break"
 
     def call_select_all_third_entry(self, event):
         self.third_entry.selection_range(0, END)
