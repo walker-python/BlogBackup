@@ -6,9 +6,17 @@ import urllib2
 import os
 import time
 import re
+import blog.gui.utility
+import threading
+import thread
 import html5lib
 
 class Utils:
+
+    @staticmethod
+    def is_backuping_stop():
+        currentThread = threading.currentThread()
+        return (not currentThread.status[0])
 
     @staticmethod
     def FilterSlash(url):
@@ -61,6 +69,9 @@ class Utils:
                     os.makedirs(dirss_ansi)
             count = 1
             while True:
+                if(Utils.is_backuping_stop()):
+                    return None
+
                 if count < 0:
                     break
                 count = count - 1
@@ -84,8 +95,7 @@ class Utils:
                         resourceFile.close()
                     break
                 except Exception,e:
-                    # print "DownloadFile: %s:%d:%s" % (e,count,url)
-                    pass
+                    blog.gui.utility.get_queue().put((0,"DownloadFile: %s:%d:%s" % (e,count,url)))
                     # exstr = traceback.format_exc()
                     # print exstr
 
@@ -109,12 +119,15 @@ class Utils:
             size = len(strMatch)
             # print "size: ",size
             for i in range(0,size,1):
+                if(Utils.is_backuping_stop()):
+                    return
+
                 one = strMatch[i]
                 newurl = Utils.GetConcatUrl(css[1],one)
                 # print "newurl %s,%s,%s" % (newurl ,css[1] , one)
                 Utils.DownloadFile(newurl,css[2])
         except Exception,e:
-                print e
+                blog.gui.utility.get_queue().put((0,e))
 
     @staticmethod
     def GetHtmlName(url):

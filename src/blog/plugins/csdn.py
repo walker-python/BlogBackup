@@ -12,8 +12,10 @@ import html5lib
 from urlparse import urlparse
 import xml
 import codecs
+import blog.gui.utility
 import traceback
 import time
+import threading
 from blog.common.utils import Utils
 
 gTestTime = 5
@@ -41,16 +43,21 @@ gTestTime = 5
 # var listTotal = 307 ;
 # https://blog.csdn.net/infoworld/article/list
 def getAllListUrl(url):
+
     header={"User-Agent": "Mozilla-Firefox5.0"}
     request = urllib2.Request(url,None,header)
     response = urllib2.urlopen(request)
     data = response.read()
+
+    if(Utils.is_backuping_stop()):
+        return None
+
     m = re.search("var[ ]{1,}pageSize[ ]+=[ ]*([0-9]+)",data)
     pageSize = m.group(1)
     m = re.search("var[ ]{1,}listTotal[ ]+=[ ]*([0-9]+)",data)
     listTotal = m.group(1)
-    print pageSize
-    print listTotal
+    blog.gui.utility.get_queue().put((0, pageSize))
+    blog.gui.utility.get_queue().put((0, listTotal))
 
     lastPageNum = int(math.ceil(float(listTotal)/float(pageSize)))
     urlList = []
@@ -78,7 +85,9 @@ def getArticleList(url):
     # <span class="link_postdate"></span>
 
     urlList = getAllListUrl(url)
-    print "文章页数 ",len(urlList)
+    if(urlList is None):
+        return None
+    blog.gui.utility.get_queue().put((0, "文章页数 %d" % len(urlList)))
     header={"User-Agent": "Mozilla-Firefox5.0"}
 
     allLists = []
@@ -91,6 +100,9 @@ def getArticleList(url):
         tryCount = gTestTime # try count
         while tryCount > 0:
             try:
+                if(Utils.is_backuping_stop()):
+                    return None
+
                 tryCount = tryCount - 1
                 time.sleep(0.5) #访问太快会不响应
                 request = urllib2.Request(one,None,header)
@@ -114,7 +126,7 @@ def getArticleList(url):
 
                 break
             except Exception, e:
-                print "getArticleList %s:%s:%d" % (e,one,tryCount)
+                blog.gui.utility.get_queue().put((0, "getArticleList %s:%s:%d" % (e,one,tryCount)))
 
     return artices
 
@@ -135,6 +147,8 @@ def Download(url,output):
 
     # print "imgElements %d" % len(imgElements)
     for img in imgElements:
+        if(Utils.is_backuping_stop()):
+            return
         src = img.attrib["src"]
         # print "image %s" % src
         try:
@@ -150,6 +164,9 @@ def Download(url,output):
     linkElements = document.findall('.//{0}link'.format(namespace))
     # print "linkElements %d" % len(linkElements)
     for link in linkElements:
+        if(Utils.is_backuping_stop()):
+            return
+
         href = link.attrib["href"]
         # print "css %s" % href
         text = Utils.DownloadFile(href,output)
@@ -159,6 +176,8 @@ def Download(url,output):
     scriptElements = document.findall('.//{0}script'.format(namespace))
     # print "scriptElements %d" % len(scriptElements)
     for script in scriptElements:
+        if(Utils.is_backuping_stop()):
+            return
         if script.attrib.has_key("src"):
             src = script.attrib["src"]
             # print "script %s-%s" % (src,output)
@@ -180,8 +199,12 @@ def Download(url,output):
 
 def run(url,output):
 
-    print "备份开始"
+    queue = blog.gui.utility.get_queue()
+    queue.put((0,"备份开始"))
     lists = getArticleList(url)
+    if(lists is None):
+        blog.gui.utility.get_queue().put((-1,"备份中止"))
+        return
     username = Utils.GetHtmlName(url)
     if not os.path.exists(output.decode("utf-8")):
         os.mkdir(output.decode("utf-8"))
@@ -191,7 +214,7 @@ def run(url,output):
         os.mkdir(output_username.decode("utf-8"))
 
     totalNum = len(lists)
-    print "总文章数: %d" % totalNum
+    blog.gui.utility.get_queue().put((0, "总文章数: %d" % totalNum))
 
     # 生成首页文件
     doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n'
@@ -234,21 +257,23 @@ def run(url,output):
     print >> f,'</html>'
     f.close()
 
-    print "开始下载文章"
+    blog.gui.utility.get_queue().put((0,  "开始下载文章"))
     currentNum = 0
     strPage = "{0}:{1}.".decode("utf-8").encode("utf-8")
     global gTestTime
     for x in lists:
         currentNum = currentNum+1
         try:
+            if(Utils.is_backuping_stop()):
+                blog.gui.utility.get_queue().put((-1,"备份中止"))
+                break
             # time.sleep(1) #访问太快,csdn会报503错误.
             strPageTemp = strPage.format(totalNum,currentNum)
             strPageTemp = strPageTemp+x[1]
-            print strPageTemp #这里有时候会不能输出,报output is not utf-8错误,单独执行时
-
-            print x
-            print "\n"
+            blog.gui.utility.get_queue().put((0,""+strPageTemp)) #这里有时候会不能输出,报output is not utf-8错误,单独执行时
             Download(x[0],output_username)
         except Exception, e:
             # exstr = traceback.format_exc()
             print e
+
+    blog.gui.utility.get_queue().put((1,"备份完成"))
