@@ -1,2 +1,2 @@
-pyinstaller gui.py
-@rem pyinstaller --onefile --windowed gui.py
+@rem pyinstaller gui.py
+pyinstaller --windowed gui.py

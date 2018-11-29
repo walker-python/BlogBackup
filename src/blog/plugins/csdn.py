@@ -1,7 +1,8 @@
 #! encoding=utf-8
 
-import urllib2
-import urllib
+
+import urllib3
+import certifi
 import re
 import os
 import math
@@ -9,7 +10,7 @@ import sys
 # from HTMLParser import HTMLParser
 import html5lib
 # from xml.etree.ElementTree import ElementTree
-from urlparse import urlparse
+from urllib.parse import urlparse
 import xml
 import codecs
 import blog.gui.utility
@@ -43,12 +44,12 @@ gTestTime = 5
 # var listTotal = 307 ;
 # https://blog.csdn.net/infoworld/article/list
 def getAllListUrl(url):
-
-    header={"User-Agent": "Mozilla-Firefox5.0"}
-    request = urllib2.Request(url,None,header)
-    response = urllib2.urlopen(request)
-    data = response.read()
-
+    header = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+    }
+    http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
+    response = http.request('GET',url,None,header)
+    data = response.data.decode('utf-8')
     if(Utils.is_backuping_stop()):
         return None
 
@@ -61,7 +62,7 @@ def getAllListUrl(url):
 
     lastPageNum = int(math.ceil(float(listTotal)/float(pageSize)))
     urlList = []
-    for x in xrange(1,lastPageNum+1):
+    for x in range(1,lastPageNum+1):
         listUrl = "https://blog.csdn.net/infoworld/article/list/"+str(x)
         urlList.append(listUrl)
 
@@ -89,14 +90,16 @@ def getArticleList(url):
     if(urlList is None):
         return None
     blog.gui.utility.get_queue().put((0, "文章页数 %d" % len(urlList)))
-    user_agent ='"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36"'
-    header = { 'User-Agent' : user_agent }
+    header = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+    }
     allLists = []
 
-    strPage = "分析 第 {0} 页 ".decode("utf-8").encode("utf-8")
+    strPage = "分析 第 {0} 页 "
     pageNum = 0
     global gTestTime
     artices = []
+    http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
     for one in urlList:
         tryCount = gTestTime # try count
         while tryCount > 0:
@@ -106,13 +109,14 @@ def getArticleList(url):
 
 
                 blog.gui.utility.get_queue().put((0, "getArticleList %s:tryCount %d" % (one,tryCount)))
+                print ("getArticleList %s:tryCount %d" % (one,tryCount))
                 tryCount = tryCount - 1
                 try:
-                    time.sleep(0.5) #访问太快会不响应
-                    request = urllib2.Request(one,None,header)
-                    response = urllib2.urlopen(request,timeout=5)
-                    data = response.read()
-                except Exception, e:
+                    time.sleep(1) #访问太快会不响应
+                    response = http.request('GET',one,None,header)
+                    data = response.data.decode("utf-8")
+                except Exception as e:
+                    print(e)
                     continue
 
                 # patternText = '<p class="content">[^<]*<a href="([^"]+)"\s+target="_blank">'
@@ -141,12 +145,14 @@ def getArticleList(url):
 # </div>
 def Download(url,output):
     # try:
-    header={"User-Agent": "Mozilla-Firefox5.0"}
+    header = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+    }
     namespace = "{http://www.w3.org/1999/xhtml}"
-    request = urllib2.Request(url,None,header)
-    response = urllib2.urlopen(request)
+    http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
+    response = http.request('GET',url,None,header)
 
-    data = response.read()
+    data = response.data.decode("utf-8")
     document = html5lib.parse(data)
     imgElements = document.findall('.//{0}img'.format(namespace))
 
@@ -162,9 +168,11 @@ def Download(url,output):
             if (-1 == res.netloc.find("csdn")) and (-1 == res.netloc.find("iteye")):
                 # print "image not download: %s:%s" % (src,res.netloc)
                 continue
-        except Exception,e:
+
+            Utils.DownloadFile(src, output, http)
+        except Exception as e:
             pass
-        Utils.DownloadFile(src,output)
+
 
     linkElements = document.findall('.//{0}link'.format(namespace))
     # print "linkElements %d" % len(linkElements)
@@ -174,24 +182,29 @@ def Download(url,output):
 
         href = link.attrib["href"]
         # print "css %s" % href
-        text = Utils.DownloadFile(href,output)
-        if link.attrib.has_key("rel") and link.attrib["rel"].lower() == "stylesheet":
-            Utils.ReadCss(text)
+        if -1 != href.find("https://blog.csdn.net"):
+            continue
+        text = Utils.DownloadFile(href,output,http)
+        if "rel" in link.attrib and link.attrib["rel"].lower() == "stylesheet":
+            css_result = Utils.ReadCss(text)
+            if css_result is not None:
+                Utils.DownloadFile(css_result[0],css_result[1],http)
 
     scriptElements = document.findall('.//{0}script'.format(namespace))
     # print "scriptElements %d" % len(scriptElements)
     for script in scriptElements:
         if(Utils.is_backuping_stop()):
             return
-        if script.attrib.has_key("src"):
+        if "src" in script.attrib:
             src = script.attrib["src"]
             # print "script %s-%s" % (src,output)
             if(src.startswith("//")):
                 src="https:"+src
-            Utils.DownloadFile(src,output)
+
+            Utils.DownloadFile(src,output,http)
 
     htmlName = Utils.GetHtmlName(url)
-    output = output.decode("utf-8") + "/"+htmlName+".htm"
+    output = output + "/"+htmlName+".htm"
     data = data.replace("http://","")
     data = data.replace("https://","")
     data = data.replace("src=\"//","src=\"")
@@ -199,6 +212,7 @@ def Download(url,output):
     data = re.sub('<div style="display:none;">[\\s\\S]*?</div>','',data)
 
     resourceFile = open(output,"wb")
+    data = data.encode("utf-8")
     resourceFile.write(data)
     resourceFile.close()
 
@@ -236,12 +250,12 @@ def run(url,output):
         if(lists is None):
             break
         username = Utils.GetHtmlName(url)
-        if not os.path.exists(output.decode("utf-8")):
-            os.mkdir(output.decode("utf-8"))
+        if not os.path.exists(output):
+            os.mkdir(output)
         output_username = output+"/"+username
         output_username = output_username.replace("\\","/")
-        if not os.path.exists(output_username.decode("utf-8")):
-            os.mkdir(output_username.decode("utf-8"))
+        if not os.path.exists(output_username):
+            os.mkdir(output_username)
 
         totalNum = len(lists)
         blog.gui.utility.get_queue().put((0, "总文章数: %d" % totalNum))
@@ -250,46 +264,46 @@ def run(url,output):
         doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n'
         charset = '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />'
         indexHtml = output_username + ".htm"
-        f = open(indexHtml.decode("utf-8"),"w")
-        print >> f,doctype
-        print >> f,'<html>'
-        print >> f,'<head>'
-        print >> f,charset
-        print >> f,'</head>'
-        print >> f,'<frameset cols=\"20%,*\">'
+        f = open(indexHtml,"w",encoding="utf-8")
+        f.write(doctype)
+        f.write('<html>')
+        f.write('<head>')
+        f.write(charset)
+        f.write('</head>')
+        f.write('<frameset cols=\"20%,*\">')
         navigationHtmlName = username+'-navigation.htm'
-        print >> f,'<frame src=\"'+navigationHtmlName+'\" />'
+        f.write('<frame src=\"'+navigationHtmlName+'\" />')
         firstHtmlName = ""
         if(len(lists) > 0):
             firstHtmlName = Utils.GetHtmlName(lists[0][0])
-        print >> f,'<frame src=\"'+username+'/'+firstHtmlName+'.htm\" name=\"showframe\">'
-        print >> f,'</frameset>'
-        print >> f,'</html>'
+        f.write('<frame src=\"'+username+'/'+firstHtmlName+'.htm\" name=\"showframe\">')
+        f.write('</frameset>')
+        f.write('</html>')
         f.close()
 
         # 生成导航文件
         navigationHtml = output+"/"+navigationHtmlName
         # f = open(navigationHtml.decode("utf-8"),"w")
-        f = codecs.open(navigationHtml.decode("utf-8"),"w","utf-8-sig")
-        print >> f,doctype
-        print >> f,'<html>'
-        print >> f,'<head>'
-        print >> f,charset
-        print >> f,'<style> body{font: 12px Verdana, Arial, Helvetica, sans-serif;}a{color: #808080;}</style>'
-        print >> f,'</head>'
-        print >> f,'<body>'
+        f = open(navigationHtml, "w", encoding="utf-8")
+        f.write(doctype)
+        f.write('<html>')
+        f.write('<head>')
+        f.write(charset)
+        f.write('<style> body{font: 12px Verdana, Arial, Helvetica, sans-serif;}a{color: #808080;}</style>')
+        f.write('</head>')
+        f.write('<body>')
         count = 0
         for x in lists:
             count = count + 1
             articleIdHtml = username+"/"+Utils.GetHtmlName(x[0])+".htm"
-            print >> f,'<a href=\"'+articleIdHtml + '\" target=\"showframe\">'+str(count)+'.'+x[1].decode("utf-8")+'</a><br /><br />'
-        print >> f,'</body>'
-        print >> f,'</html>'
+            f.write('<a href=\"'+articleIdHtml + '\" target=\"showframe\">'+str(count)+'.'+x[1]+'</a><br /><br />')
+        f.write('</body>')
+        f.write('</html>')
         f.close()
 
         blog.gui.utility.get_queue().put((0,  "开始下载文章"))
         currentNum = 0
-        strPage = "{0}:{1}.".decode("utf-8").encode("utf-8")
+        strPage = "{0}:{1}."
         global gTestTime
         for x in lists:
             try:
@@ -301,9 +315,9 @@ def run(url,output):
                 strPageTemp = strPageTemp+x[1]
                 blog.gui.utility.get_queue().put((0,""+strPageTemp)) #这里有时候会不能输出,报output is not utf-8错误,单独执行时
                 Download(x[0],output_username)
-            except Exception, e:
-                # exstr = traceback.format_exc()
-                print e
+            except Exception as e:
+                exstr = traceback.format_exc()
+                blog.gui.utility.get_queue().put((0, exstr))
 
         if(not Utils.is_backuping_stop()):
             result = (1,"备份完成")

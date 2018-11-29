@@ -1,13 +1,14 @@
 #! encoding=utf-8
+import threading
 
 import html5lib
-import urllib2
 import sys
 import os
 import time
+import urllib3.contrib.pyopenssl
 import re
 import blog.plugins.csdn
-from urlparse import *
+import blog.gui.utility
 
 __author__ = 'apple'
 
@@ -43,16 +44,16 @@ def getDomainMainPart(url):
 
 def testGetDomainMainPart():
     result= getDomainMainPart("http://blog.csdn.net/infoworld")
-    print "1",result
+    print ("1",result)
 
     result= getDomainMainPart("http://12.disd.cnblogs.com/")
-    print "2",result
+    print ("2",result)
 
     result= getDomainMainPart("http://12.disd.cnblogs.com")
-    print "3",result
+    print ("3",result)
 
     result= getDomainMainPart("http://12.disd.cnblogs.com/zhyg/p/4315787.html")
-    print "4",result
+    print ("4",result)
 
 def queryBlogUser(url,pos):
     if(pos != -1):
@@ -76,9 +77,13 @@ def queryCsdnUrl(url):
     return queryBlogUser(url,pos)
 
 if __name__ == "__main__":
-    url = "blog.csdn.net/infoworld/adfaadfa"
+    url = "https://blog.csdn.net/infoworld"
     userId = queryCsdnUrl(url)
-    print userId
-    # moduleName = getDomainMainPart(url)
-    # if moduleName == "csdn":
-    #     blog.plugins.csdn.run(url,"C:\\Users\\apple\\Desktop\\New folder")
+    moduleName = getDomainMainPart(url)
+    blog.gui.utility.init_queue()
+
+    currentThread = threading.currentThread()
+    currentThread.status = [1]
+    urllib3.contrib.pyopenssl.inject_into_urllib3()
+    if moduleName == "csdn":
+        blog.plugins.csdn.run(url,"C:\\Users\\apple\\Desktop\\New folder")

@@ -1,12 +1,12 @@
 __author__ = 'apple'
 
-import Queue
+import queue
 
 def get_queue():
     dicts = globals()
     return dicts["queue"]
 
 def init_queue():
-    gQueue = Queue.Queue(0)
+    gQueue = queue.Queue(0)
     dicts = globals()
     dicts["queue"] = gQueue

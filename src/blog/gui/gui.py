@@ -1,12 +1,16 @@
 #! encoding=utf-8
 
-from Tkinter import *
+import tkinter
+import tkinter.font
+import urllib3.contrib.pyopenssl
+from tkinter.font import Font
+import tkinter.commondialog
+import tkinter.filedialog
+from tkinter.scrolledtext import ScrolledText
+import tkinter.constants
 import string
-from tkFileDialog import *
-import tkFont
 import sys
-import thread
-import Queue
+import queue
 import threading
 import blog.gui.utility
 import os
@@ -18,10 +22,10 @@ import subprocess
 import tempfile
 import importlib
 import time
-from PIL import ImageFile
-from PIL import ImageTk
 import ctypes
 import locale
+import threading
+import _thread
 import blog.plugins.csdn
 
 
@@ -46,12 +50,8 @@ clib = cdll.msvcrt
 CF_TEXT = 1
 
 ######################## decrypt code
-from ScrolledText import ScrolledText
 import os
 import struct
-import Tkinter
-import Tkconstants
-import tkMessageBox
 import traceback
 
 import zlib
@@ -62,9 +62,6 @@ from contextlib import closing
 import hashlib
 from itertools import chain, islice
 import xml.etree.ElementTree as etree
-import Tkinter
-import Tkconstants
-import tkFileDialog
 
 import subprocess
 
@@ -85,42 +82,42 @@ class App:
     def __init__(self, master, width1, height1):
         self.toplevel = master
         self.appdir = get_dir(sys.argv[0])[0]
-        self.frame = Frame(master, bd=0, width=width1, height=height1)
+        self.frame = tkinter.Frame(master, bd=0, width=width1, height=height1)
         #frame["bg"]="#ffffff"
-        self.frame.grid(column=0, row=0, sticky=N + E + S + W)
+        self.frame.grid(column=0, row=0, sticky=tkinter.N + tkinter.E + tkinter.S + tkinter.W)
         self.frame.rowconfigure(0, weight=1)
         self.frame.rowconfigure(1, weight=1)
         self.frame.columnconfigure(0, weight=1)
 
         # panel1 top
-        self.panel1 = Canvas(self.frame, bd=0, highlightthickness=0)
+        self.panel1 = tkinter.Canvas(self.frame, bd=0, highlightthickness=0)
         self.panel1["bg"] = "#ffffff"
         self.panel1["width"] = "%d" % width1
         self.panel1["height"] = "%d" % 40
-        self.panel1.grid(column=0, row=0, sticky=E + W + N + S)
+        self.panel1.grid(column=0, row=0, sticky=tkinter.E + tkinter.W + tkinter.N + tkinter.S)
         self.panel1.rowconfigure(0, weight=1)
         self.panel1.columnconfigure(0, weight=20)
         self.panel1.columnconfigure(1, weight=1)
         self.panel1.columnconfigure(2, weight=1)
         self.panel1.columnconfigure(3, weight=1)
 
-        self.logo_link = Canvas(self.panel1, bd=0, highlightthickness=0)
+        self.logo_link = tkinter.Canvas(self.panel1, bd=0, highlightthickness=0)
         self.logo_link["bg"] = "#ffffff"
         self.logo_link["width"] = "%d" % 300
         self.logo_link["height"] = "%d" % 40
 
-        self.font = tkFont.Font(family="Arial", size=19, weight=tkFont.BOLD)
+        self.font = Font(family="Arial", size=19, weight=tkinter.font.BOLD)
         self.logo_link.create_text(30, 60, text=self.toplevel.title2(),
-                                   anchor=SW, font=self.font)
-        self.logo_link.grid(row=0, column=0, sticky=N + E + S + W)
+                                   anchor=tkinter.SW, font=self.font)
+        self.logo_link.grid(row=0, column=0, sticky=tkinter.N + tkinter.E + tkinter.S + tkinter.W)
 
         # panel2 top
-        self.panel2 = Canvas(self.frame, bd=0, highlightthickness=0)
+        self.panel2 = tkinter.Canvas(self.frame, bd=0, highlightthickness=0)
         self.panel2.toplevel = self.toplevel
         #self.panel2["bg"]="#ffffff"
         self.panel2["width"] = "%d" % width1
         self.panel2["height"] = "%d" % (height1 - 100)
-        self.panel2.grid(column=0, row=1, sticky=N + E + S + W)
+        self.panel2.grid(column=0, row=1, sticky=tkinter.N + tkinter.E + tkinter.S + tkinter.W)
 
         self.panel2.filechoose = SimpleFileChoose(self.panel2, 20, 20, width1 - 40, 100)
         self.panel2.removepanel = RemovePanel(self.panel2, 20, 130, width1 - 40, 100)
@@ -152,7 +149,7 @@ class Diacritical:
                       lambda event, a=a: self.insert_accented(event.char, a))
 
 def _rc_menu_install(w):
-    w.menu = Tkinter.Menu(w, tearoff=0)
+    w.menu = tkinter.Menu(w, tearoff=0)
     w.menu.add_command(label="Cut")
     w.menu.add_command(label="Copy")
     w.menu.add_command(label="Paste")
@@ -161,7 +158,7 @@ def _rc_menu_install(w):
     w.menu.entryconfigure("Copy", command=lambda: w.focus_force() or w.event_generate("<<Copy>>"))
     w.menu.entryconfigure("Paste", command=lambda: w.focus_force() or w.event_generate("<<Paste>>"))
 
-class DiacriticalEntry(Entry, Diacritical):
+class DiacriticalEntry(tkinter.Entry, Diacritical):
     """Tkinter Entry widget with some extra key bindings for
     entering typical Unicode characters - with umlauts, accents, etc."""
 
@@ -169,12 +166,12 @@ class DiacriticalEntry(Entry, Diacritical):
         self.tk.call("tk_popup", self.menu, e.x_root, e.y_root)
 
     def __init__(self, master=None, **kwargs):
-        Entry.__init__(self, master=None, **kwargs)
+        tkinter.Entry.__init__(self, master=None, **kwargs)
         Diacritical.__init__(self)
         _rc_menu_install(self)
 
     def select_all(self, event=None):
-        self.selection_range(0, END)
+        self.selection_range(0, tkinter.END)
         return "break"
 
 
@@ -188,9 +185,9 @@ class DiacriticalText(ScrolledText, Diacritical):
         _rc_menu_install(self)
 
     def select_all(self, event=None):
-        self.tag_add(SEL, "1.0", "end-1c")
-        self.mark_set(INSERT, "1.0")
-        self.see(INSERT)
+        self.tag_add(tkinter.SEL, "1.0", "end-1c")
+        self.mark_set(tkinter.INSERT, "1.0")
+        self.see(tkinter.INSERT)
         return "break"
 
     def show_menu(self, e):
@@ -207,7 +204,7 @@ class RemovePanel:
         self.height = height
         self.parent = master
         self.toplevel = master.toplevel
-        self.canvas = Canvas(master, bd=0, highlightthickness=0)
+        self.canvas = tkinter.Canvas(master, bd=0, highlightthickness=0)
         self.canvas["width"] = "%d" % width
         self.canvas["height"] = "%d" % height
         self.canvas.place(x=x, y=y, width=width, height=height)
@@ -227,13 +224,13 @@ class RemovePanel:
         self.text.place(x=x, y=y)
 
         self.button1_text = "开始备份"
-        self.second_font = tkFont.Font(family="Arial", size=10, weight=tkFont.BOLD)
-        self.removebutton = Button(self.canvas, text=self.button1_text, height=2,
+        self.second_font = Font(family="Arial", size=10, weight=tkinter.font.BOLD)
+        self.removebutton = tkinter.Button(self.canvas, text=self.button1_text, height=2,
                                    font=self.second_font, command=self.start_backup_blog)
         self.removebutton.place(x=400, y=10, width=158, height=44)
 
-        self.output_font = tkFont.Font(family="Arial", size=10)
-        self.ckbutton = Button(self.canvas, text="打开输出目录", height=2,
+        self.output_font = Font(family="Arial", size=10)
+        self.ckbutton = tkinter.Button(self.canvas, text="打开输出目录", height=2,
                                font=self.output_font, command=self.open_output_dir)
         self.ckbutton.place(x=400, y=64, width=158, height=30)
 
@@ -242,8 +239,8 @@ class RemovePanel:
         try:
             temp = self.toplevel.GetNativeEncode(temp_dir.replace("/", "\\"))
             subprocess.Popen('explorer ' + '"' + temp + '"')
-        except Exception, e:
-            print "open_output_dir error"
+        except Exception as e:
+            print("open_output_dir error")
 
     def sort_list(self, list, first):
         for i in range(len(list)):
@@ -255,7 +252,6 @@ class RemovePanel:
         return list
 
     def worker(self):
-        object = threading.local()
         currentThread = threading.currentThread()
         currentThread.status = self.status
         # https://stackoverflow.com/questions/15959534/visibility-of-global-variables-in-imported-modules
@@ -265,43 +261,45 @@ class RemovePanel:
     def onUpdate(self):
         try:
             valueTuple = blog.gui.utility.get_queue().get(False)
+            if(valueTuple == None):
+                return
+
             if(valueTuple[0] == 0):
-                self.text.insert(END, valueTuple[1] + "\n")
-                self.text.see(END)
+                self.text.insert(tkinter.END, valueTuple[1] + "\n")
+                self.text.see(tkinter.END)
             elif(valueTuple[0] == -1):
-                self.text.insert(END, "备份失败" + "\n")
+                self.text.insert(tkinter.END, "备份失败" + "\n")
                 self.removebutton["text"] = self.button1_text
-                self.removebutton["state"]=NORMAL
+                self.removebutton["state"]=tkinter.NORMAL
                 return
             else:
-                self.text.insert(END, "备份完成" + "\n")
+                self.text.insert(tkinter.END, "备份完成" + "\n")
                 self.removebutton["text"] = self.button1_text
-                self.removebutton["state"]=NORMAL
+                self.removebutton["state"]=tkinter.NORMAL
                 return
-        except Queue.Empty:
+        except Exception as e:
             pass
-
         app.frame.after(500, self.onUpdate)
 
     def start_backup_blog(self):
         self.inpath = self.parent.filechoose.get_input_file_name()
         if len(self.inpath) == 0:
-            self.text.insert(END, "请输入个人博客首页网址" + "\n")
+            self.text.insert(tkinter.END, "请输入个人博客首页网址" + "\n")
             return
 
         self.output = self.parent.filechoose.get_output_dir()
         if len(self.output) == 0:
-            self.text.insert(END, "请选择有效的输出目录" + "\n")
+            self.text.insert(tkinter.END, "请选择有效的输出目录" + "\n")
             return
 
         if(self.status[0]):
             self.status[0] = False
             self.removebutton["text"] = self.button1_text
-            self.removebutton["state"]=DISABLED
+            self.removebutton["state"]=tkinter.DISABLED
         else:
             self.status[0] = True
             self.removebutton["text"] = "停止"
-            thread.start_new_thread(self.worker, ())
+            _thread.start_new_thread(self.worker, ())
             app.frame.after(500, self.onUpdate)
 
 
@@ -319,7 +317,7 @@ class SimpleButton:
     def __init__(self, master, image, text):
         self.image = image
         self.text = text
-        self.canvas = Canvas(master, bd=0, highlightthickness=0)
+        self.canvas = tkinter.Canvas(master, bd=0, highlightthickness=0)
         width = ((self.image.width() >> 1) << 1) + 25
         height = ((self.image.height() >> 1) << 1) + 25
 
@@ -342,13 +340,13 @@ class SimpleButton:
     #pack(side=LEFT)
 
     def create_button(self, x, y):
-        self.font = tkFont.Font(family="Courier New", size=10, weight=tkFont.BOLD)
+        self.font = Font(family="Courier New", size=10, weight=tkinter.font.BOLD)
         self.font_width = self.font.measure(self.text)
         self.text_x = (self.width - self.font_width) / 2
 
         self.canvas.image_id = self.canvas.create_image(x, y, image=self.image)
         self.canvas.text_id = self.canvas.create_text(self.text_x, self.height, text=self.text,
-                                                      anchor=SW, font=self.font)
+                                                      anchor=tkinter.SW, font=self.font)
 
     def left_mouse_press(self, event):
         canvas = self.canvas
@@ -424,14 +422,14 @@ class SimpleFileChoose:
         self.width = width
         self.height = height
         self.parent = master
-        self.canvas = Canvas(master, bd=0, highlightthickness=0)
+        self.canvas = tkinter.Canvas(master, bd=0, highlightthickness=0)
         #self.canvas["bg"]="#000000"
         self.canvas["width"] = "%d" % width
         self.canvas["height"] = "%d" % height
         #temp_dir.encode("gbk")
         try:
             self.outputdir = os.path.join(os.path.expanduser('~'), 'Desktop')
-        except Exception, e:
+        except Exception as e:
             self.outputdir = self.toplevel.realdir
 
         toplevel = self.toplevel
@@ -456,7 +454,7 @@ class SimpleFileChoose:
         x3 = 0 + 5
         y3 = self.height - 5
 
-        self.font = tkFont.Font(family="Courier New", size=8)
+        self.font = Font(family="Courier New", size=8)
         self.text = "请输入个人博客首页网址"
         self.font_width = self.font.measure(self.text)
         self.text_center_x = x + self.font_width / 2 + 10
@@ -479,15 +477,15 @@ class SimpleFileChoose:
         self.canvas.create_line(x2, y2 + 1, x3, y3 + 1, fill="#ffffff")
 
         # input file
-        self.second_font = tkFont.Font(family="Arial", size=8)
+        self.second_font = Font(family="Arial", size=8)
         self.second_text = "       博客: "
         self.second_font_width = self.second_font.measure(self.second_text)
         self.second_text_center_x = x + self.second_font_width / 2 + 10
         self.canvas.create_text(self.second_text_center_x, self.height / 4 + y, text=self.second_text,
                                 font=self.second_font)
 
-        self.entry_font = tkFont.Font(family="Arial", size=10)
-        self.entry = Entry(self.canvas, font=self.entry_font)
+        self.entry_font = Font(family="Arial", size=10)
+        self.entry = tkinter.Entry(self.canvas, font=self.entry_font)
         self.entry.bind("<Control-KeyPress-a>", self.call_select_all)
         self.entry.bind("<Button-3><ButtonRelease-3>", self.call_show_menu)
         _rc_menu_install(self.entry)
@@ -495,14 +493,14 @@ class SimpleFileChoose:
         self.entry.place(x=x + self.second_font_width + 10, y=self.height / 4 + y - 15, width=380,
                          height=28)
 
-        self.input_font = tkFont.Font(family="Arial", size=8, weight=tkFont.BOLD)
+        self.input_font = Font(family="Arial", size=8, weight=tkinter.font.BOLD)
 
         # output file
         self.third_text = "输出目录: "
         self.canvas.create_text(self.second_text_center_x, self.height * 4 / 6 + y, text=self.third_text,
                                 font=self.second_font)
 
-        self.third_entry = Entry(self.canvas, font=self.entry_font)
+        self.third_entry = tkinter.Entry(self.canvas, font=self.entry_font)
         self.third_entry.insert(0, self.outputdir)
         #		self.third_entry.bind("<Button-1>",self.fn_igore_event);
         self.third_entry["state"] = "readonly"
@@ -510,7 +508,7 @@ class SimpleFileChoose:
         self.third_entry.place(x=x + self.second_font_width + 10, y=self.height * 4 / 6 + y - 15, width=380,
                                height=28)
 
-        self.third_sfbutton = Button(self.canvas, text="选择输出目录", height=2, font=self.second_font,
+        self.third_sfbutton = tkinter.Button(self.canvas, text="选择输出目录", height=2, font=self.second_font,
                                      command=self.call_file_dialog_third_sfbutton)
         self.third_sfbutton.place(x=self.width - 100, y=self.height * 4 / 6 + y - 15, width=80, height=25)
 
@@ -518,33 +516,33 @@ class SimpleFileChoose:
 
         options = {}
         options['initialdir'] = self.outputdir
-        tempDir = tkFileDialog.askdirectory(**options)
+        tempDir = tkinter.filedialog.askdirectory(**options)
 
         if len(tempDir) == 0:
-            self.parent.removepanel.text.insert(END, "请选择输出目录\n")
-            self.parent.removepanel.text.see(INSERT)
+            self.parent.removepanel.text.insert(tkinter.END, "请选择输出目录\n")
+            self.parent.removepanel.text.see(tkinter.INSERT)
             return
         else:
             self.outputdir = tempDir
 
         self.third_entry["state"] = "normal"
-        self.third_entry.delete(0, END)
+        self.third_entry.delete(0, tkinter.END)
         self.third_entry.insert(0, self.outputdir)
         self.third_entry["state"] = "readonly"
-        self.parent.removepanel.text.insert(END, "选择输出目录: " + self.outputdir + "\n")
-        self.parent.removepanel.text.see(INSERT)
+        self.parent.removepanel.text.insert(tkinter.END, "选择输出目录: " + self.outputdir + "\n")
+        self.parent.removepanel.text.see(tkinter.INSERT)
 
     def call_show_menu(self, e):
         self.entry.tk.call("tk_popup", self.entry.menu, e.x_root, e.y_root)
         return "break"
 
     def call_select_all_third_entry(self, event):
-        self.third_entry.selection_range(0, END)
+        self.third_entry.selection_range(0, tkinter.END)
         self.third_entry.focus()
         return "break"
 
     def call_select_all(self, event):
-        self.entry.selection_range(0, END)
+        self.entry.selection_range(0, tkinter.END)
         self.entry.focus()
         return "break"
 
@@ -555,61 +553,6 @@ class SimpleFileChoose:
         if len(self.third_entry.get()) == 0:
             return "./output"
         return self.third_entry.get()
-
-
-class ImageFp:
-    def __init__(self, attributes, encrypt_file, header_size):
-        self.attributes = attributes
-        self.encrypt_file = encrypt_file
-        self.header_size = header_size
-
-    def fn_get_image_from_fp(self, fp, file_size):
-        BSIZE = 1024
-        left_size = file_size
-
-        p = ImageFile.Parser()
-        while 1:
-            if left_size - BSIZE <= 0:
-                s = fp.read(left_size)
-                p.feed(s)
-                break;
-            left_size = left_size - BSIZE
-            s = fp.read(BSIZE)
-            p.feed(s)
-        im = p.close()
-        return im
-
-    def fn_get_image(self, image_name):
-        ia = None
-        for file in self.attributes:
-            if image_name == file[0]:
-                ia = file
-                break
-        fp = open(self.encrypt_file, "rb")
-        fp.seek(ia[3] + self.header_size, os.SEEK_SET)
-        im = self.fn_get_image_from_fp(fp, file[2])
-        fp.close()
-        return im
-
-    def fn_get_photoimage_from_image(self, image_name):
-        return ImageTk.PhotoImage(self.fn_get_image(image_name))
-
-    def fn_create_icon_on_temp(self, image_name):
-        ia = None
-        for file in self.attributes:
-            if image_name == file[0]:
-                ia = file
-                break
-        path = os.path.split(os.path.realpath(sys.argv[0]))[0]
-        fp = open(self.encrypt_file, "rb")
-        fp.seek(ia[3] + self.header_size, os.SEEK_SET)
-        path = path + "/" + image_name
-        fw = open(path, "wb")
-        str = fp.read(ia[2])
-        fw.write(str)
-        fp.close()
-        fw.close()
-        return path
 
 
 def getCompanyName():
@@ -650,33 +593,33 @@ def GetMyDocumentPath():
 
 
 def EncodeUTF8(str):
-    print "EncodeUTF8"
+    print("EncodeUTF8")
     return str.encode("utf-8");
 
 
 def DecodeUTF8(str):
-    print "DecodeUTF8"
+    print("DecodeUTF8")
     return str.decode("utf-8");
 
 
 def DecodeGBK(str):
-    print "DecodeGBK"
+    print("DecodeGBK")
     return str.decode("gbk")
 
 
 def EncodeGBK(str):
-    print "EncodeGBK"
+    print("EncodeGBK")
     return str.encode("gbk")
 
 
 def NotDecode(str):
-    print "NotDecode"
+    print("NotDecode")
     return str
 
 
 def GetNativeDecode():
     nLocale = locale.getlocale()[1]
-    print nLocale
+    print(nLocale)
     if nLocale == "936":
         return DecodeGBK
     else:
@@ -685,7 +628,7 @@ def GetNativeDecode():
 
 def GetNativeEncode():
     nLocale = locale.getlocale()[1]
-    print nLocale
+    print(nLocale)
     if nLocale == "936":
         return EncodeGBK
     else:
@@ -715,13 +658,13 @@ def SetPropertyValue(key, value, file_name):
         lines.append(key_name + value + "\r\n")
     try:
         f.writelines(lines)
-    except Exception, e:
-        print "write"
+    except Exception as e:
+        print("write")
 
     try:
         f.close()
-    except Exception, e:
-        print "close"
+    except Exception as  e:
+        print("close")
 
 
 def GetPropertyValue(key, file_name):
@@ -750,7 +693,7 @@ def fn_onsetup():
 
 if __name__ == '__main__':
     locale.setlocale(locale.LC_ALL, '')
-    root = Tk()
+    root = tkinter.Tk()
     root.GetNativeDecode = GetNativeDecode()
     root.GetNativeEncode = GetNativeEncode()
     root.EncodeUTF8 = EncodeUTF8
@@ -769,7 +712,7 @@ if __name__ == '__main__':
     root.y = (root.winfo_screenheight() - height) / 2
     geometry = "%dx%d+%d+%d" % (width, height, root.x, root.y)
 
-    print sys.argv[0]
+    print(sys.argv[0])
     root.realpath = os.path.realpath(sys.argv[0])
     root.realdir = os.path.split(root.realpath)[0]
     root.version = get_version
@@ -792,8 +735,9 @@ if __name__ == '__main__':
     root.deiconify()
     root.grid()
     blog.gui.utility.init_queue()
-
+    ct = threading.current_thread()
     global app
+    urllib3.contrib.pyopenssl.inject_into_urllib3()
     app = App(root, width1=width, height1=height)
     root.mainloop()
 

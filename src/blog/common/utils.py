@@ -1,15 +1,16 @@
 #! encoding=utf-8
+import traceback
+
 __author__ = 'apple'
 
-from urlparse import urlparse
-import urllib2
+from urllib.parse import urlparse
+import urllib3
+import certifi
 import os
-import time
 import re
 import blog.gui.utility
 import threading
-import thread
-import html5lib
+import time
 
 class Utils:
 
@@ -50,11 +51,12 @@ class Utils:
         return first+second
 
     @staticmethod
-    def DownloadFile(url,output):
+    def DownloadFile(url,output,http):
         responseText = None
         dirssPath = None
         # 有些css里的image超链接竟然带空格?csdn不检查的?
         url = url.replace(" ","")
+
         try:
             res = urlparse(url)
             url = res.scheme+"://"+res.netloc+res.path
@@ -62,9 +64,9 @@ class Utils:
             index = path.rfind('/')
             dirss = "/"
             if index != -1:
-                dirss =  output + "/" + res.netloc.encode("utf-8") + path[0:index].encode("utf-8")
-                dirssPath = output + "/" + res.netloc.encode("utf-8") + path.encode("utf-8")
-                dirss_ansi = dirss.decode('utf-8')
+                dirss =  output + "/" + res.netloc+ path[0:index]
+                dirssPath = output + "/" + res.netloc + path
+                dirss_ansi = dirss
                 if not os.path.exists(dirss_ansi):
                     os.makedirs(dirss_ansi)
             count = 1
@@ -75,39 +77,47 @@ class Utils:
                 if count < 0:
                     break
                 count = count - 1
-                user_agent ='"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36"'
-                header = { 'User-Agent' : user_agent }
+                header = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+                }
 
                 if (not url.startswith("http://")) and (not url.startswith("https://")):
                     break
                 try:
                     # print "url: %s:%d" % (url,count)
-                    # time.sleep(0.5)
-                    request = urllib2.Request(url,None,header)
-                    response = urllib2.urlopen(request)
-                    dirssPath_ansi = dirssPath.decode("utf-8")
+                    dirssPath_ansi = dirssPath
                     if not os.path.exists(dirssPath_ansi):
+                        print (url)
+                        if (-1 != url.find("https://blog.csdn.net")):
+                            return None
+
+                        time.sleep(0.5)
+                        blog.gui.utility.get_queue().put((0, url))
+                        response = http.request('GET', url, None, header)
                         resourceFile = open(dirssPath_ansi,"wb")
-                        responseText = response.read()
+                        responseText = response.data
                         if url.endswith(".js"):
+                            responseText = responseText.decode('utf-8')
                             responseText = responseText.replace("http://","")
                             responseText = responseText.replace("https://","")
+                            responseText = responseText.encode("utf-8")
                         resourceFile.write(responseText)
                         resourceFile.close()
                     break
-                except Exception,e:
+                except Exception as e:
                     if(Utils.is_backuping_stop()):
                         return None
-                    blog.gui.utility.get_queue().put((0,"DownloadFile: %s:%d:%s" % (e,count,url)))
-                    # exstr = traceback.format_exc()
-                    # print exstr
 
-        except Exception,e:
-                pass
-                # exstr = traceback.format_exc()
-                # print exstr
+                    exstr = traceback.format_exc()
+                    blog.gui.utility.get_queue().put((0,"DownloadFile1: %s" % exstr))
+                    print (exstr)
 
-        return (responseText,url,output)
+        except Exception as e:
+                exstr = traceback.format_exc()
+                blog.gui.utility.get_queue().put((0, "DownloadFile1: %s" % exstr))
+                print (exstr)
+
+        return ("",url,output)
 
     @staticmethod
     def ReadCss(css):
@@ -128,9 +138,11 @@ class Utils:
                 one = strMatch[i]
                 newurl = Utils.GetConcatUrl(css[1],one)
                 # print "newurl %s,%s,%s" % (newurl ,css[1] , one)
-                Utils.DownloadFile(newurl,css[2])
-        except Exception,e:
+                # Utils.DownloadFile(newurl,css[2])
+                return (newurl,css[2])
+        except Exception as e:
                 blog.gui.utility.get_queue().put((0,e))
+        return None
 
     @staticmethod
     def GetHtmlName(url):
