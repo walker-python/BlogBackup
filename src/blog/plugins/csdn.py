@@ -63,7 +63,7 @@ def getAllListUrl(url):
     lastPageNum = int(math.ceil(float(listTotal)/float(pageSize)))
     urlList = []
     for x in range(1,lastPageNum+1):
-        listUrl = "https://blog.csdn.net/infoworld/article/list/"+str(x)
+        listUrl = url+"/article/list/"+str(x)
         urlList.append(listUrl)
 
     return urlList
@@ -108,8 +108,8 @@ def getArticleList(url):
                     return None
 
 
-                blog.gui.utility.get_queue().put((0, "getArticleList %s:tryCount %d" % (one,tryCount)))
-                print ("getArticleList %s:tryCount %d" % (one,tryCount))
+                blog.gui.utility.get_queue().put((0, "%s:tryCount %d" % (one,tryCount)))
+                print ("%s:tryCount %d" % (one,tryCount))
                 tryCount = tryCount - 1
                 try:
                     time.sleep(1) #访问太快会不响应
@@ -318,6 +318,7 @@ def run(url,output):
             except Exception as e:
                 exstr = traceback.format_exc()
                 blog.gui.utility.get_queue().put((0, exstr))
+                print (exstr)
 
         if(not Utils.is_backuping_stop()):
             result = (1,"备份完成")

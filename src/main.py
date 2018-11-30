@@ -77,7 +77,7 @@ def queryCsdnUrl(url):
     return queryBlogUser(url,pos)
 
 if __name__ == "__main__":
-    url = "https://blog.csdn.net/infoworld"
+    url = "https://blog.csdn.net/FE_dev"
     userId = queryCsdnUrl(url)
     moduleName = getDomainMainPart(url)
     blog.gui.utility.init_queue()

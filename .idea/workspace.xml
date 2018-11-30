@@ -7,14 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2cfb65dd-bd89-441c-8b4d-aaac1356c760" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/BlogBackup.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BlogBackup.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/blog/common/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/blog/common/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/blog/gui/build-gui.bat" beforeDir="false" afterPath="$PROJECT_DIR$/src/blog/gui/build-gui.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/blog/gui/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/blog/gui/gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/blog/gui/utility.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/blog/gui/utility.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/blog/gui/gui.spec" beforeDir="false" afterPath="$PROJECT_DIR$/src/blog/gui/gui.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/blog/plugins/csdn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/blog/plugins/csdn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
@@ -37,7 +32,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blog/common/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
+            <state relative-caret-position="1729">
               <caret line="91" selection-start-line="91" selection-end-line="91" />
             </state>
           </provider>
@@ -55,7 +50,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/typing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
+            <state relative-caret-position="29241">
               <caret line="1549" column="8" selection-start-line="1549" selection-start-column="8" selection-end-line="1549" selection-end-column="8" />
             </state>
           </provider>
@@ -64,7 +59,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blog/gui/gui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
+            <state relative-caret-position="4712">
               <caret line="274" column="17" selection-start-line="274" selection-start-column="17" selection-end-line="274" selection-end-column="17" />
               <folding>
                 <element signature="e#19#33#0" expanded="true" />
@@ -85,8 +80,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/blog/plugins/csdn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="182" column="34" selection-start-line="182" selection-start-column="34" selection-end-line="182" selection-end-column="34" />
+            <state relative-caret-position="-3581">
+              <caret line="118" column="25" selection-start-line="118" selection-start-column="20" selection-end-line="118" selection-end-column="25" />
               <folding>
                 <element signature="e#20#34#0" expanded="true" />
               </folding>
@@ -97,7 +92,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/html5lib/html5parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="58">
+            <state relative-caret-position="3401">
               <caret line="202" column="27" selection-start-line="202" selection-start-column="27" selection-end-line="202" selection-end-column="27" />
             </state>
           </provider>
@@ -106,8 +101,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="86" column="51" selection-start-line="86" selection-start-column="3" selection-end-line="86" selection-end-column="51" />
+            <state relative-caret-position="260">
+              <caret line="88" column="38" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
               <folding>
                 <element signature="e#18#34#0" expanded="true" />
               </folding>
@@ -118,7 +113,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/urllib3/contrib/pyopenssl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
+            <state relative-caret-position="2071">
               <caret line="114" column="4" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
             </state>
           </provider>
@@ -134,7 +129,6 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Exception,</find>
-      <find>print</find>
       <find>dialog</find>
       <find>csdn</find>
       <find>tkfile</find>
@@ -159,6 +153,10 @@
       <find>Exception</find>
       <find>DownloadFile</find>
       <find>DownloadFile1:</find>
+      <find>infoworld</find>
+      <find>getAllListUrl</find>
+      <find>getArticleList</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -173,14 +171,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/blog/gui/utility.py" />
-        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/blog/gui/gui.py" />
         <option value="$PROJECT_DIR$/src/blog/common/utils.py" />
+        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/blog/plugins/csdn.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-163" />
     <option name="y" value="129" />
     <option name="width" value="1296" />
@@ -263,7 +261,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.gui">
+  <component name="RunManager" selected="Python.main">
     <configuration default="true" type="tests" factoryName="Attests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -331,8 +329,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.gui" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.gui" />
       </list>
     </recent_temporary>
   </component>
@@ -352,7 +350,8 @@
   </component>
   <component name="TodoView" selected-index="1" />
   <component name="ToolWindowManager">
-    <frame x="-163" y="129" width="1296" height="776" extended-state="0" />
+    <frame x="-8" y="-8" width="1296" height="776" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21621622" />
       <window_info id="Structure" order="1" weight="0.24781573" />
@@ -360,14 +359,14 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49523053" weight="0.2141707" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.83942765" weight="0.2673108" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.83863276" visible="true" weight="0.2673108" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49682036" weight="0.32419354" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Changes" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49920508" weight="0.32741934" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.16057234" side_tool="true" visible="true" weight="0.2673108" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.16136725" side_tool="true" visible="true" weight="0.2673108" />
       <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49920508" weight="0.32903227" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -387,17 +386,44 @@
           <line>54</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/blog/common/utils.py</url>
           <line>112</line>
           <option name="timeStamp" value="278" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/blog/common/utils.py</url>
           <line>91</line>
           <option name="timeStamp" value="299" />
         </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/blog/plugins/csdn.py</url>
+          <line>325</line>
+          <option name="timeStamp" value="300" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/blog/plugins/csdn.py</url>
+          <line>316</line>
+          <option name="timeStamp" value="302" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/blog/plugins/csdn.py</url>
+          <line>307</line>
+          <option name="timeStamp" value="303" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/blog/plugins/csdn.py</url>
+          <line>245</line>
+          <option name="timeStamp" value="305" />
+        </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -568,6 +594,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/blog/common/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1729">
+          <caret line="91" selection-start-line="91" selection-end-line="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/typing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29241">
+          <caret line="1549" column="8" selection-start-line="1549" selection-start-column="8" selection-end-line="1549" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/blog/gui/gui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4712">
+          <caret line="274" column="17" selection-start-line="274" selection-start-column="17" selection-end-line="274" selection-end-column="17" />
+          <folding>
+            <element signature="e#19#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/html5lib/_inputstream.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4370">
@@ -575,13 +625,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/html5lib/html5parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3401">
+          <caret line="202" column="27" selection-start-line="202" selection-start-column="27" selection-end-line="202" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/urllib3/contrib/pyopenssl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2071">
+          <caret line="114" column="4" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/urllib/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/typing.py">
+    <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="1549" column="8" selection-start-line="1549" selection-start-column="8" selection-end-line="1549" selection-end-column="8" />
+        <state relative-caret-position="260">
+          <caret line="88" column="38" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
+          <folding>
+            <element signature="e#18#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -592,51 +659,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/urllib3/contrib/pyopenssl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="114" column="4" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="86" column="51" selection-start-line="86" selection-start-column="3" selection-end-line="86" selection-end-column="51" />
-          <folding>
-            <element signature="e#18#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/html5lib/html5parser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="202" column="27" selection-start-line="202" selection-start-column="27" selection-end-line="202" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/blog/gui/gui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="274" column="17" selection-start-line="274" selection-start-column="17" selection-end-line="274" selection-end-column="17" />
-          <folding>
-            <element signature="e#19#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/blog/common/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="91" selection-start-line="91" selection-end-line="91" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/blog/plugins/csdn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="182" column="34" selection-start-line="182" selection-start-column="34" selection-end-line="182" selection-end-column="34" />
+        <state relative-caret-position="-3581">
+          <caret line="118" column="25" selection-start-line="118" selection-start-column="20" selection-end-line="118" selection-end-column="25" />
           <folding>
             <element signature="e#20#34#0" expanded="true" />
           </folding>
